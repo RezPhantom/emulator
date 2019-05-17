@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: "emulator"
+  labels:
+    metrics: "emulator"
+    app: "emulator"
+    version: "1"
+  annotations:
+    description: "Builds the MongoDB ebis container."
+    template.alpha.openshift.io/wait-for-ready: "true"
+spec:
+  source:
+    git:
+      uri: "https://github.com/DarrenMun/appiumServer.git"
+      ref: "master"
+    # sourceSecret:
+      # name: ignore-https-gitconf
+    # contextDir: containers/cicd/appium/dockerfile
+    spec:
+      resources:
+        limits:
+          cpu: '1'
+          memory: 4Gi
+        requests:
+          cpu: 1Gi
+          memory: 1Gi
+  strategy:
+    dockerStrategy:
+      buildargs:
+      # - name: NEXUS_ARTIFACT_URL
+      #   value: "https://nexus-continuousintegration-dev.app.dev.cpt.ocp.vodacom.corp"
+      # - name: NEXUS_ARTIFACT_REPO
+      #   value: "thirdparty"
+      # - name: NEXUS_GROUP_ID
+      #   value: "org/thirdparty/appium"
+      # - name: NEXUS_ARTIFACT_ID
+      #   value: "appium"
+      # - name: NEXUS_ARTIFACT_VERSION
+      #   value: "1.7.8"
+      # - name: NEXUS_ARTIFACT_CLASSIFIER
+      #   value: "1.7.8"
+      # - name: NEXUS_ARTIFACT_TYPE
+      #   value: "tar.gz"
+      # env:
+      # - name: PROJECT_NAME
+      #   value: "appium"
+      # - name: SERVICE_VERSION
+      #   value: "1.7.8"
+      # - name: SERVICE_DESCRIPTION
+      #   value: "appium monitoring"
+      # - name: SERVICE_MEMORY
+      #   value: "300M"
+      # - name: PORT
+      #   value: "8888"
+      #   protocol: TCP
+      dockerfilePath: "Docker_emulator/android_emu.docker"
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "emulator:1"
+  triggers:
+  - type: "ConfigChange"
+  - type: "ImageChange"
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - "emulator"
+      from:
+        kind: "ImageStreamTag"
+        name: "emulator:1"
+        namespace: "appium"

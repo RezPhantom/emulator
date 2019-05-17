@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: "genymotion"
+  labels:
+    metrics: "genymotion"
+    app: "cicd-genymotion"
+    version: "3.0.1"
+spec:
+  host: ''
+  port:
+    targetPort: 5902-http
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: edge
+  to:
+    kind: Service
+    name: "genymotion"
+    weight: 100

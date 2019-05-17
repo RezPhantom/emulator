@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: appium
+  labels:
+    metrics: "appium"
+    app: "cicd-inluxdb"
+    version: "1.6.3"

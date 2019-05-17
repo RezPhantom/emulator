@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: base-emulator
+  labels:
+    metrics: "base-emulator"
+    app: "cicd-base-emulator"
+    version: "1"
+  namespace: appium

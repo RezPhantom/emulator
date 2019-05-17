@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: appium-base
+  labels:
+    metrics: "appium-base"
+    app: "cicd-appium-base"
+    version: "1"

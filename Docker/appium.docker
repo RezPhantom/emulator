@@ -1,0 +1,17 @@
+FROM python:3-alpine
+
+WORKDIR /usr/bin
+
+RUN chmod -R 777 /usr/bin/
+RUN apk add --no-cache --update \
+    python3 nodejs-current-npm
+
+RUN npm install -g appium --unsafe-perm=true --allow-root
+
+RUN apk del nodejs
+
+EXPOSE 4723
+
+CMD ["appium"]
+
+
